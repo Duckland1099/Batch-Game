@@ -194,7 +194,7 @@ echo.
 echo ALI is over...
 call theend1.bat
 :check2
-echo you took down the over cultist
+echo you took down the other cultist
 Set /a fight3 = 2
 goto alichoice
 :death

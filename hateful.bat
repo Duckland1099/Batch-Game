@@ -1,13 +1,15 @@
 @echo off  
 :reset
 echo.
-set /a ALIHP1=500
+set /a ALIHP1=450
 set /a ALIatt1=45
 set /a ALIdef1=1
 set /a ALIkits=0
 set /a medkits=10
 set /a move=0
-set /a prop=30
+set /a prop=0
+set /a pick=0
+
 type ZK.txt
 type line.txt
 echo.
@@ -72,12 +74,22 @@ set /a defe2 = 0
 if %ALIHP1% == 0 goto win
 pause
 :ALIchoice
+if %pick%== 1 goto ALIattack2
+:ALIchoice2
 set /a ALIchoice = (%random%%%3) + 1
 if %ALIchoice%==1 goto ALIattack1
-if %ALIchoice%==2 goto ALIattack2
-if %ALIchoice%==3 goto ALIheal1
+if %ALIchoice%==2 goto ALIheal1
+if %ALIchoice%==3 goto ALIPICKUP
+:ALIPICKUP
+echo.
+set /a pick = 1
+echo the Hateful Flesh picked up something, your amour may be less effective
+set /a prop = (%random%%%50) + 1
+if %prop% GTR 50 set /a prop = 50
+if %prop% LSS 1 set /a prop = 10
+goto choice
 :ALIattack1
-set /a damage2=%ALIatt1% - %def% - %DEFE%
+set /a damage2=%ALIatt1% - %DEF% - %DEFE% 
 set /a HP=%HP% - %damage2%
 echo.
 echo the Hateful Flesh attacked you and stole some of your flesh allowing it to heal
@@ -88,12 +100,15 @@ echo your HP = [91m%HP%[0m
 pause
 goto choice
 :ALIattack2
-set /a damage2=%prop% - %def% - %DEFE%
+set /a pick = 0
+set /a damage2= %prop% - %DEFE% - (%def% - 10)
+if %damage2% LSS 0 set /a damage2 = 0
 set /a HP=%HP% - %damage2%
 echo.
 echo the Hateful Flesh threw something at you
 echo.
 if %HP% lss 0 (set /a HP = 0)
+set /a prop = 0
 echo your HP = [91m%HP%[0m
 pause
 goto choice
@@ -125,7 +140,7 @@ goto reset
 :win
 type winb.txt
 echo.
-echo you beat the Hateful Flesh
+echo you killed the Hateful Flesh
 echo.
 echo ...
 pause

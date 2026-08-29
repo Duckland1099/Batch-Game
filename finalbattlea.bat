@@ -117,7 +117,7 @@ goto choice
 :death
 type fail1.txt
 echo.
-echo you died, game over... try?
+echo you died, game over... try again?
 set /p fail3=
 if /i "%fail3%" == "yes" goto retry 
 if /i "%fai3%" == "no" goto End
